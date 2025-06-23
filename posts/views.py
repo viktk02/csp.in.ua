@@ -2,12 +2,22 @@ from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from .models import Post
 from .validators import dates_validator, parse_date_safe
+from utils.secure_utils import generate_nonce, create_csp
 
 class PostListView(ListView):
     model = Post
     template_name = 'posts/feed.html'
     context_object_name = 'posts'
     paginate_by = 2
+
+    def render_to_response(self, context, **response_kwargs):
+        nonce = generate_nonce()
+        scp = create_csp(nonce)
+
+        context['nonce'] = nonce
+        response = super().render_to_response(context, **response_kwargs)
+        response['Content-Security-Policy'] = scp
+        return response
 
     def get_queryset(self):
         queryset = Post.objects.all()
@@ -29,10 +39,10 @@ class PostListView(ListView):
 
         date_from_raw = self.request.GET.get('date_from')
         date_to_raw = self.request.GET.get('date_to')
-        date_from = parse_date_safe(date_from_raw)
-        date_to = parse_date_safe(date_to_raw)
+        date_from = parse_date_safe(str(date_from_raw))
+        date_to = parse_date_safe(str(date_to_raw))
 
-        if (date_from_raw or date_to_raw) and dates_validator(date_from, date_to):
+        if (date_from_raw or date_to_raw) and not dates_validator(str(date_from), str(date_to)):
             print("detected invalid date")
             self.invalid_date_range = True
             return queryset.order_by(sort_by)
@@ -60,4 +70,13 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'posts/single_post.html'
     context_object_name = 'post'
+
+    def render_to_response(self, context, **response_kwargs):
+        nonce = generate_nonce()
+        scp = create_csp(nonce)
+
+        context['nonce'] = nonce
+        response = super().render_to_response(context, **response_kwargs)
+        response['Content-Security-Policy'] = scp
+        return response
 

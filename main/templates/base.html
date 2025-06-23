@@ -19,7 +19,7 @@
             <div class="logo">
                 <a href="{% url 'main:index' %}"><img src="{% static 'img/logo_transparent.png' %}" alt="Логотип"></a>
             </div>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <button class="menu-toggle" id="toggleMenu">☰</button>
             <nav class="menu" id="mainMenu">
                 <a href="{% url 'main:index' %}">Головна</a>
                 <a href="{% url 'posts' %}">Новини</a>
@@ -61,14 +61,21 @@
         </div>
   </footer>
 
-<script>
+<script nonce="{{ nonce }}">
     function toggleMenu() {
         const menu = document.getElementById('mainMenu');
         menu.classList.toggle('active');
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('toggleMenu');
+    if (btn) {
+      btn.addEventListener('click', toggleMenu);
+    }
+  });
 </script>
 
-<script>
+<script nonce="{{ nonce }}">
   const canvas = document.getElementById('background');
   const ctx = canvas.getContext('2d');
 
@@ -174,8 +181,8 @@
     <span class="modal-close">&times;</span>
     <img class="modal-content" id="modalImage">
 </div>
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" nonce="{{ nonce }}"></script>
+<script nonce="{{ nonce }}">
   const swiperSettings = {
     loop: true,
     slidesPerView: 2,
