@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Новини | БТ "Центр суспільних програм"{% endblock %}
+
+{% block add_css %}
+    <link rel="stylesheet" href="{% static 'css/feed.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="header-search-wrapper">
+        <h1 class="section-title">
+            {% if search_query %}Пошук новин{% else %}Останні новини{% endif %}
+        </h1>
+
+        <div class="search-box">
+            <form method="get" class="search-form">
+                <div class="search-input-group">
+                    <input type="text" name="q" placeholder="Пошук новин..." value="{{ search_query }}" class="search-input">
+                    <button type="submit" class="search-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                {% if search_query %}
+                <a href="{% url 'posts' %}" class="cancel-search" title="Скинути пошук">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 6L18 18" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <div class="search-filter-section">
+        <div>
+            <div class="filter-box">
+                <form method="get" class="filter-form">
+                    <input type="hidden" name="q" value="{{ search_query }}">
+
+                    <div class="filter-group date-filters">
+                        <label>Період:</label>
+                        <div class="date-inputs">
+                            <input type="date" name="date_from" value="{{ date_from }}" class="date-input {% if invalid_date_range %}invalid-date{% endif %}">
+                            <span class="date-separator">—</span>
+                            <input type="date" name="date_to" value="{{ date_to }}" class="date-input {% if invalid_date_range %}invalid-date{% endif %}">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Сортування:</label>
+                        <select name="sort" class="sort-select">
+                            <option value="-date_posted" {% if current_sort == '-date_posted' %}selected{% endif %}>Найновіші</option>
+                            <option value="date_posted" {% if current_sort == 'date_posted' %}selected{% endif %}>Найстаріші</option>
+                            <option value="title" {% if current_sort == 'title' %}selected{% endif %}>Назва (А–Я)</option>
+                            <option value="-title" {% if current_sort == '-title' %}selected{% endif %}>Назва (Я–А)</option>
+                            <option value="author" {% if current_sort == 'author' %}selected{% endif %}>Автор</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-buttons">
+
+                        <button type="submit" class="apply-filters">Застосувати</button>
+
+                        {% if date_from or date_to or current_sort != "-date_posted" %}
+                            <a href="{% url 'posts' %}{% if search_query %}?q={{ search_query }}{% endif %}" class="reset-filters">
+                                Скинути
+                            </a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="news-grid">
+        {% for post in posts %}
+            <div class="news-card">
+            <div class="news-image">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            </div>
+                <h2><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
+            <div class="post-content">
+                {{ post.preview_text|truncatewords:30 }}...
+            </div>
+            <div class="news-meta">
+                <p><strong>Автор:</strong> {{ post.author }}</p>
+                <p>{{ post.date_posted|date:"d.m.Y" }}</p>
+            </div>
+            <a href="{% url 'post-detail' post.pk %}">Читати далі</a>
+        </div>
+        {% empty %}
+            <p>Новин не знайдено.</p>
+        {% endfor %}
+    </div>
+
+    {% with "" as querystring %}
+      {% if search_query %}{% with querystring|add:"q="|add:search_query|add:"&" as querystring %}{% endwith %}{% endif %}
+      {% if date_from %}{% with querystring|add:"date_from="|add:date_from|add:"&" as querystring %}{% endwith %}{% endif %}
+      {% if date_to %}{% with querystring|add:"date_to="|add:date_to|add:"&" as querystring %}{% endwith %}{% endif %}
+      {% if current_sort %}{% with querystring|add:"sort="|add:current_sort|add:"&" as querystring %}{% endwith %}{% endif %}
+
+      <div class="smart-pagination">
+        {% if is_paginated %}
+          {# Стрілка назад #}
+          {% if page_obj.has_previous %}
+            <a href="?{{ querystring }}page={{ page_obj.previous_page_number }}" class="page-arrow">‹</a>
+          {% else %}
+            <span class="page-arrow disabled">‹</span>
+          {% endif %}
+
+          {# Перша сторінка #}
+          {% if page_obj.number > 4 %}
+            <a href="?{{ querystring }}page=1" class="page-number">1</a>
+            <span class="page-dots">...</span>
+          {% endif %}
+
+          {# Сусідні сторінки #}
+          {% for num in page_obj.paginator.page_range %}
+            {% if num >= page_obj.number|add:"-3" and num <= page_obj.number|add:"3" %}
+              {% if page_obj.number == num %}
+                <span class="page-number current">{{ num }}</span>
+              {% else %}
+                <a href="?{{ querystring }}page={{ num }}" class="page-number">{{ num }}</a>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {# Остання сторінка #}
+          {% if page_obj.number < page_obj.paginator.num_pages|add:"-3" %}
+            <span class="page-dots">...</span>
+            <a href="?{{ querystring }}page={{ page_obj.paginator.num_pages }}" class="page-number">{{ page_obj.paginator.num_pages }}</a>
+          {% endif %}
+
+          {# Стрілка вперед #}
+          {% if page_obj.has_next %}
+            <a href="?{{ querystring }}page={{ page_obj.next_page_number }}" class="page-arrow">›</a>
+          {% else %}
+            <span class="page-arrow disabled">›</span>
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endwith %}
+
+{% endblock %}

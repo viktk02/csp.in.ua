@@ -1,0 +1,96 @@
+.post-title {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.post-detail {
+  margin-bottom: 40px;
+}
+
+.post-detail article {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-detail .post-title {
+  font-size: 2rem;
+  margin-top: 20px;
+  margin-bottom: 0;
+  line-height: 1.3;
+}
+
+.post-detail .post-meta {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.post-detail .post-hero img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.post-detail .post-content {
+  line-height: 1.6;
+  font-size: 1.05rem;
+  overflow: hidden;
+}
+
+.post-detail .post-content .ck-content h2,
+.post-detail .post-content .ck-content h3,
+.post-detail .post-content .ck-content h4 {
+  margin: 1.6em 0 0.6em;
+  line-height: 1.3;
+}
+
+.post-detail .back-link {
+  display: inline-block;
+  margin-top: 30px;
+  color: blue;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.post-detail .back-link:hover {
+  color: darkblue;
+}
+
+.post-detail .post-content .ck-content img {
+  float: none;
+  display: block;
+  margin: 1.5em auto !important;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.post-detail .post-content .ck-content figure {
+  float: none !important;
+  display: table !important;
+  margin: 1.5em auto !important;
+}
+
+@media (max-width: 768px) {
+  .post-detail .post-title {
+    font-size: 1.5rem;
+  }
+
+  .post-detail .post-hero img {
+    max-height: 250px;
+  }
+
+  .post-detail .post-content .ck-content img {
+    width: 100% !important;
+
+  }
+}
+

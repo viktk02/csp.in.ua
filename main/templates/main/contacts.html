@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Контакти | БТ "Центр суспільних програм"
+{% endblock %}
+
+{% block content %}
+
+    <h1>Наші контакти</h1>
+
+    <p>
+      <strong>Телефон:</strong>
+      <a href="tel:+380637040828">+380 63 704 08 28</a>
+    </p>
+    <p>
+      <strong>Електронна пошта:</strong>
+      <a href="mailto:csp.kherson.13@gmail.com">csp.kherson.13@gmail.com</a>
+    </p>
+
+    <h2>Ми в соцмережах</h2>
+    <div class="socials" style="display:flex; gap:1rem; align-items:center;">
+      <a href="https://www.facebook.com/centr.kherson"
+         target="_blank"
+         rel="noopener noreferrer"
+         title="Facebook">
+        <img src="{% static 'img/facebook.png' %}"
+             alt="Facebook"
+             style="width:40px; height:40px;">
+      </a>
+      <a href="https://www.instagram.com/cspkherson?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+         target="_blank"
+         rel="noopener noreferrer"
+         title="Instagram">
+        <img src="{% static 'img/instagram.png' %}"
+             alt="Instagram"
+             style="width:40px; height:40px;">
+      </a>
+    </div>
+
+    <p style="margin-top:2rem;">
+      Якщо у вас є питання — пишіть або телефонуйте нам, ми завжди раді допомогти!
+    </p>
+
+{% endblock %}

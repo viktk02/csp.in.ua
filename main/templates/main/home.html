@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Центр суспільних програм{% endblock %}
+
+{% block content %}
+<div style="width: 100%; height: auto;">
+    <img src="{% static 'img/hero.jpg' %}" alt="Заставка" style="margin-top: 10px; width: 100%; max-height: 500px; object-fit: cover; border-radius: 12px;">
+</div>
+
+<section class="section-wrapper" style="margin-top: 2rem; text-align: center;">
+    <div class="post-content">
+        <div class="ck-content">
+            {{ text.text|safe }}
+        </div>
+    </div>
+</section>
+
+<section class="section-wrapper" style="margin-top: 2rem;">
+    <div class="swiper photo-swiper">
+        <div class="swiper-wrapper">
+            {% for image in carousel_images %}
+            <div class="swiper-slide">
+                <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-button-next desktop-only"></div>
+        <div class="swiper-button-prev desktop-only"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<section class="section-wrapper" style="margin-top: 2rem;">
+    <h2 style="text-align:center;">Наші партнери та друзі</h2>
+
+   <div class="swiper partner-top-swiper">
+      <div class="swiper-wrapper">
+        {% if top_logos|length < 20 %}
+          {% for i in "1234" %}
+            {% for logo in top_logos %}
+              <div class="swiper-slide" style="display: flex; justify-content: center;">
+                <img src="{{ logo.image.url }}" alt="{{ logo.name }}" style="max-height: 70px;">
+              </div>
+            {% endfor %}
+          {% endfor %}
+        {% else %}
+          {% for logo in top_logos %}
+            <div class="swiper-slide" style="display: flex; justify-content: center;">
+              <img src="{{ logo.image.url }}" alt="{{ logo.name }}" style="max-height: 70px;">
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="swiper-button-prev desktop-only"></div>
+      <div class="swiper-button-next desktop-only"></div>
+        <br>
+        <br>
+      <div class="swiper-pagination"></div>
+    </div>
+
+
+    <div class="swiper partner-bottom-swiper" style="margin-top: 2rem;">
+      <div class="swiper-wrapper">
+        {% if bottom_logos|length < 20 %}
+          {% for i in "1234" %}
+            {% for logo in bottom_logos %}
+              <div class="swiper-slide" style="display: flex; justify-content: center;">
+                <img src="{{ logo.image.url }}" alt="{{ logo.name }}" style="max-height: 70px;">
+              </div>
+            {% endfor %}
+          {% endfor %}
+        {% else %}
+          {% for logo in bottom_logos %}
+            <div class="swiper-slide" style="display: flex; justify-content: center;">
+              <img src="{{ logo.image.url }}" alt="{{ logo.name }}" style="max-height: 70px;">
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="swiper-button-prev desktop-only"></div>
+      <div class="swiper-button-next desktop-only"></div>
+        <br>
+        <br>
+      <div class="swiper-pagination"></div>
+    </div>
+
+</section>
+{% endblock %}

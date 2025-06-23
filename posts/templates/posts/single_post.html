@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block add_css %}
+    <link rel="stylesheet" href="{% static 'css/ckeditor-content.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+    <article>
+        <h1 class="post-title">{{ post.title }}</h1>
+        <p class="post-meta">
+            {{ post.author }} • {{ post.date_posted|date:"d.m.Y" }}
+            {% if post.date_updated and post.date_updated|date:'U' != post.date_posted|date:'U' %}
+            {% endif %}
+        </p>
+
+        {% if post.image %}
+        <div class="post-hero">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+        </div>
+        {% endif %}
+
+        <div class="post-content">
+            <div class="ck-content">
+                {{ post.content|safe }}
+            </div>
+        </div>
+    </article>
+
+    <a href="{% url 'posts' %}" class="back-link">← До стрічки</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tables = document.querySelectorAll('.ck-content table');
+    tables.forEach(table => {
+        const wrapper = document.createElement('div');
+        wrapper.style.overflowX = 'auto';
+        wrapper.style.width = '100%';
+        table.parentNode.insertBefore(wrapper, table);
+        wrapper.appendChild(table);
+    });
+});
+
+</script>
+<script src="{% static 'js/lightbox.js' %}"></script>
+
+{% endblock %}

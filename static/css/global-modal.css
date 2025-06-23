@@ -1,0 +1,44 @@
+.global-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+
+.global-modal .modal-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    animation: modalFadeIn 0.3s;
+    cursor: default;
+}
+
+.global-modal .modal-close {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 10000;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.global-modal .modal-close:hover {
+    color: #ff5252;
+    transform: rotate(90deg);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
