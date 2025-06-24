@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 ADMIN_TWO_FACTOR_NAME = 'BT_VERIFICATION'
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -130,7 +130,7 @@ CKEDITOR_5_CONFIGS = {
             'heading', '|',
             'bold', 'italic', 'link', 'underline', '|',
             'bulletedList', 'numberedList', 'blockQuote', '|',
-            'insertTable', 'imageUpload', 'mediaEmbed', '|',
+            'imageUpload', 'mediaEmbed', '|',
             'undo', 'redo'
         ],
         'heading': {
@@ -149,42 +149,47 @@ CKEDITOR_5_CONFIGS = {
         'mediaEmbed': {
             'previewsInData': True,
         },
-        'table': {
-            'contentToolbar': [
-                'tableColumn', 'tableRow', 'mergeTableCells'
-            ]
-        },
         'contentCss': [
             '/static/ckeditor/ckeditor/styles/content.css'
         ],
     },
 }
 
-# CONTENT_SECURITY_POLICY = {
-#     "DIRECTIVES": {
-#         "default-src": ["'self'"],
-#         "script-src": [
-#             "'self'",
-#             "'unsafe-inline'",
-#             "https://cdn.jsdelivr.net",
-#             "https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js",
-#         ],
-#         "style-src": [
-#             "'self'",
-#             "'unsafe-inline'",
-#             "https://cdn.jsdelivr.net",
-#             "https://fonts.googleapis.com",
-#             "https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css",
-#         ],
-#         "img-src": ["'self'", "data:"],
-#         "font-src": [
-#             "'self'",
-#             "https://cdn.jsdelivr.net",
-#             "https://fonts.gstatic.com",
-#             "data:",
-#         ],
-#     }
-# }
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": ["'self'"],
+        "script-src": [
+            "'self'",
+            "https://www.youtube.com",
+            "https://s.ytimg.com"
+        ],
+        "style-src": [
+            "'self'",
+            "https://fonts.googleapis.com"
+        ],
+        "img-src": [
+            "'self'",
+            "data:",
+            "https://i.ytimg.com",
+            "https://*.ytimg.com"
+        ],
+        "frame-src": [
+            "'self'",
+            "https://www.youtube.com",
+            "https://youtube.com"
+        ],
+        "media-src": [
+            "'self'",
+            "https://www.youtube.com",
+            "https://youtube.com"
+        ],
+        "font-src": [
+            "'self'",
+            "https://fonts.gstatic.com"
+        ],
+        "connect-src": ["'self'"]
+    }
+}
 
 
 

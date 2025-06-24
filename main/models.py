@@ -8,7 +8,7 @@ class SingletonModel(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk and self.__class__.objects.exists():
-            raise ValidationError('Может существовать только один объект %(class)s')
+            raise ValidationError('Може існувати тільки один об\'єкт %(class)s')
         return super().save(*args, **kwargs)
 
     @classmethod

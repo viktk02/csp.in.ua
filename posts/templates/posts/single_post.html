@@ -24,27 +24,16 @@
         {% endif %}
 
         <div class="post-content">
+
             <div class="ck-content">
                 {{ post.content|safe }}
             </div>
         </div>
     </article>
 
-    <a href="{% url 'posts' %}" class="back-link">← До стрічки</a>
+    <a href="{{ return_url }}" class="back-link">← До стрічки</a>
 </div>
 
-<script nonce="{{ nonce }}">
-document.addEventListener('DOMContentLoaded', function() {
-    const tables = document.querySelectorAll('.ck-content table');
-    tables.forEach(table => {
-        const wrapper = document.createElement('div');
-        wrapper.style.overflowX = 'auto';
-        wrapper.style.width = '100%';
-        table.parentNode.insertBefore(wrapper, table);
-        wrapper.appendChild(table);
-    });
-});
-</script>
 <script src="{% static 'js/lightbox.js' %}" nonce="{{ nonce }}"></script>
 
 {% endblock %}

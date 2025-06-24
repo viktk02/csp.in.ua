@@ -11,5 +11,5 @@ def create_csp(nonce):
         "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
         "img-src 'self' data:; "
         "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; "
-        "connect-src 'self';"
+        "media-src 'self' https://www.youtube.com https://youtube.com",
     )

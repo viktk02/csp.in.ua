@@ -1,23 +1,14 @@
 from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from .models import Post
-from .validators import dates_validator, parse_date_safe
+from .validators import dates_validator
 from utils.secure_utils import generate_nonce, create_csp
 
 class PostListView(ListView):
     model = Post
     template_name = 'posts/feed.html'
     context_object_name = 'posts'
-    paginate_by = 2
-
-    def render_to_response(self, context, **response_kwargs):
-        nonce = generate_nonce()
-        scp = create_csp(nonce)
-
-        context['nonce'] = nonce
-        response = super().render_to_response(context, **response_kwargs)
-        response['Content-Security-Policy'] = scp
-        return response
+    paginate_by = 8
 
     def get_queryset(self):
         queryset = Post.objects.all()
@@ -34,16 +25,15 @@ class PostListView(ListView):
             queryset = queryset.filter(
                 Q(title__icontains=search_query) |
                 Q(content__icontains=search_query) |
+                Q(preview_text__icontains=search_query) |
                 Q(author__icontains=search_query)
             ).distinct()
 
-        date_from_raw = self.request.GET.get('date_from')
-        date_to_raw = self.request.GET.get('date_to')
-        date_from = parse_date_safe(str(date_from_raw))
-        date_to = parse_date_safe(str(date_to_raw))
+        date_from = self.request.GET.get('date_from')
+        date_to = self.request.GET.get('date_to')
 
-        if (date_from_raw or date_to_raw) and not dates_validator(str(date_from), str(date_to)):
-            print("detected invalid date")
+
+        if not dates_validator(date_from, date_to):
             self.invalid_date_range = True
             return queryset.order_by(sort_by)
 
@@ -52,18 +42,31 @@ class PostListView(ListView):
         if date_to:
             queryset = queryset.filter(date_posted__lte=date_to)
 
-
         return queryset.order_by(sort_by)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['current_sort'] = self.request.GET.get('sort', '-date_posted')
-        context['search_query'] = self.request.GET.get('q', '')
-        context['date_from'] = self.request.GET.get('date_from','')
-        context['date_to'] = self.request.GET.get('date_to','')
-        context['invalid_date_range'] = getattr(self, 'invalid_date_range', False)
+        context.update({
+            'current_sort': self.request.GET.get('sort', '-date_posted'),
+            'search_query': self.request.GET.get('q', ''),
+            'date_from': self.request.GET.get('date_from', ''),
+            'date_to': self.request.GET.get('date_to', ''),
+            'invalid_date_range': getattr(self, 'invalid_date_range', False),
+            'nonce': generate_nonce()
+        })
+
         return context
+
+    def get(self, request, *args, **kwargs):
+        request.session['previous_posts_page'] = request.get_full_path()
+        return super().get(request, *args, **kwargs)
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        response['Content-Security-Policy'] = create_csp(context['nonce'])
+        return response
+
 
 
 class PostDetailView(DetailView):
@@ -71,12 +74,15 @@ class PostDetailView(DetailView):
     template_name = 'posts/single_post.html'
     context_object_name = 'post'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'return_url': self.request.session.get('previous_posts_page', '/posts/'),
+            'nonce': generate_nonce()
+        })
+        return context
+
     def render_to_response(self, context, **response_kwargs):
-        nonce = generate_nonce()
-        scp = create_csp(nonce)
-
-        context['nonce'] = nonce
         response = super().render_to_response(context, **response_kwargs)
-        response['Content-Security-Policy'] = scp
+        response['Content-Security-Policy'] = create_csp(context['nonce'])
         return response
-

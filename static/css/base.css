@@ -84,7 +84,6 @@ header {
 
 }
 
-/* ===== MOBILE ADAPTATION ===== */
 @media (max-width: 700px) {
      header {
         width: 90vw;

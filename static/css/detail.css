@@ -41,7 +41,8 @@
 .post-detail .post-content {
   line-height: 1.6;
   font-size: 1.05rem;
-  overflow: hidden;
+  overflow: visible;
+  width: 100%;
 }
 
 .post-detail .post-content .ck-content h2,
