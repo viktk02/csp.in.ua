@@ -36,7 +36,7 @@
 
    <div class="swiper partner-top-swiper">
       <div class="swiper-wrapper">
-        {% if top_logos|length < 5 %}
+        {% if top_logos|length <= 8 %}
           {% for i in "1234" %}
             {% for logo in top_logos %}
               <div class="swiper-slide" style="display: flex; justify-content: center;">
@@ -65,7 +65,7 @@
 
     <div class="swiper partner-bottom-swiper" style="margin-top: 2rem;">
       <div class="swiper-wrapper">
-        {% if bottom_logos|length < 5 %}
+        {% if bottom_logos|length <= 8 %}
           {% for i in "1234" %}
             {% for logo in bottom_logos %}
               <div class="swiper-slide" style="display: flex; justify-content: center;">

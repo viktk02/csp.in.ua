@@ -4,15 +4,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 ADMIN_TWO_FACTOR_NAME = 'BT_VERIFICATION'
+TWO_FACTOR_QR_FACTORY = 'qrcode.image.pil.PilImage'
+CSP_IMG_SRC = ("'self'", "data:", "https:") 
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['csp.in.ua','www.csp.in.ua', 'localhost',
+    '127.0.0.1', ]
 
 INSTALLED_APPS = [
     'admin_two_factor.apps.TwoStepVerificationConfig',
@@ -113,7 +117,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #different from production
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -6,10 +6,10 @@ def generate_nonce():
 
 def create_csp(nonce):
     return (
-        "default-src 'self'; "
+        "default-src 'self';"
         f"script-src 'self' 'nonce-{nonce}' https://cdn.jsdelivr.net; "
         "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-        "img-src 'self' data:; "
+        "img-src 'self' data: https:; "
         "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; "
-        "media-src 'self' https://www.youtube.com https://youtube.com",
+        "media-src 'self' https://www.youtube.com https://youtube.com"
     )

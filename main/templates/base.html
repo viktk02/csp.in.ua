@@ -5,10 +5,28 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="icon" type="image/png" href="{% static 'img/icon2.png' %}">
+    <!-- Стандартна favicon -->
+    <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+    
+    <!-- SVG -->
+    <link rel="icon" href="{% static 'icons/favicon.svg' %}" type="image/svg+xml">
+    
+    <!-- Apple -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' %}">
+    
+    <!-- Android -->
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'icons/android-chrome-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'icons/android-chrome-512x512.png' %}">
+    
+    <!-- Web manifest -->
+    <link rel="manifest" href="{% static 'icons/site.webmanifest' %}">
+
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <link rel="stylesheet" href="{% static 'css/global-modal.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Офіційний сайт громадської організації БТ 'Центр суспільних програм'. Ми віримо в силу громади, у внутрішнє світло людини, в те, що навіть одна добра дія змінює світ.">
+    <meta name="keywords" content="Центр суспільних програм, громадська організація, освіта, демократія">
     {% block add_css %}{% endblock %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
 </head>
@@ -225,5 +243,19 @@
   new Swiper(".partner-top-swiper", swiperSettings);
   new Swiper(".partner-bottom-swiper", swiperSettings);
 </script>
+<script type="application/ld+json" nonce="{{ nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Центр суспільних програм",
+  "url": "https://csp.in.ua",
+  "description": "Громадська організація, що підтримує суспільні ініціативи, демократію та освіту. Ми віримо в силу громади, у внутрішнє світло людини, в те, що навіть одна добра дія змінює світ.",
+  "sameAs": [
+    "https://www.facebook.com/centr.kherson",
+    "https://www.instagram.com/cspkherson"
+  ]
+}
+</script>
+
 </body>
 </html>

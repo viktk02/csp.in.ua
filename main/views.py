@@ -35,7 +35,6 @@ def contacts(request):
     return response
 
 def custom_404_view(request, exception):
-    print("Custom 404 handler triggered")
     nonce = generate_nonce()
     csp = create_csp(nonce)
     response = render(request, '404.html', status=404, context={'nonce': nonce})

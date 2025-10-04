@@ -382,7 +382,7 @@
 
 @media (width: 820px) {
     .date-input, .sort-select {
-        font-size: 0.65rem;
+        font-size: 0.70rem;
     }
     .apply-filters,
     .reset-filters {
@@ -390,8 +390,14 @@
     }
 }
 
+@media (max-width: 450px) {
+    .date-input, .sort-select {
+        font-size: 0.65rem;
+    }
+}
+
 @media (max-width: 360px) {
     .date-input, .sort-select {
-        font-size: 0.70rem;
+        font-size: 0.60rem;
     }
 }

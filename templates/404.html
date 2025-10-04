@@ -5,10 +5,22 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="icon" type="image/png" href="{% static 'img/icon2.png' %}">
+    <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+    
+    <link rel="icon" href="{% static 'icons/favicon.svg' %}" type="image/svg+xml">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon.png' %}">
+
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'icons/android-chrome-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'icons/android-chrome-512x512.png' %}">
+
+    <link rel="manifest" href="{% static 'icons/site.webmanifest' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <link rel="stylesheet" href="{% static 'css/global-modal.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Офіційний сайт благодійної організації БТ 'Центр суспільних програм'. Ми віримо в силу громади, у внутрішнє світло людини, в те, що навіть одна добра дія змінює світ.">
+    <meta name="keywords" content="Центр суспільних програм, благодійна організація, освіта, демократія">
     {% block add_css %}{% endblock %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
 </head>
@@ -63,7 +75,7 @@
         </div>
   </footer>
 
-<script>
+<script nonce="{{ nonce }}">
   const canvas = document.getElementById('background');
   const ctx = canvas.getContext('2d');
 
@@ -164,6 +176,19 @@
   }
 
   animate();
+</script>
+<script type="application/ld+json" nonce="{{ nonce }}">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Центр суспільних програм",
+  "url": "https://csp.in.ua",
+  "description": "Благодійна організація, що підтримує суспільні ініціативи, демократію та освіту. Ми віримо в силу громади, у внутрішнє світло людини, в те, що навіть одна добра дія змінює світ.",
+  "sameAs": [
+    "https://www.facebook.com/centr.kherson",
+    "https://www.instagram.com/cspkherson"
+  ]
+}
 </script>
 </body>
 </html>
