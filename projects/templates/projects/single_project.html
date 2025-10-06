@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block add_css %}
+    <link rel="stylesheet" href="{% static 'css/ckeditor-content.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="post-detail">
+    <article>
+        <h1 class="post-title">{{ project.title }}</h1>
+        {% if project.image %}
+        <div class="post-hero">
+            <img src="{{ project.image.url }}" alt="{{ project.title }}">
+        </div>
+        {% endif %}
+
+        <div class="post-content">
+            <div class="ck-content">
+                {{ project.content|safe }}
+            </div>
+        </div>
+    </article>
+
+    <a href="{{ return_url }}" class="back-link">← До стрічки</a>
+</div>
+
+<script src="{% static 'js/lightbox.js' %}" nonce="{{ nonce }}"></script>
+
+{% endblock %}

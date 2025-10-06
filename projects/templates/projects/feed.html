@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Наші Проєкти | БТ "Центр суспільних програм"{% endblock %}
+
+{% block add_css %}
+    <link rel="stylesheet" href="{% static 'css/feed.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="header-search-wrapper">
+        <h1 class="section-title">
+            Наші проєкти
+        </h1>
+    </div>
+
+    <div class="news-grid">
+        {% for project in projects %}
+        <div class="news-card">
+            <div class="news-image">
+                <a href="{% url 'project-detail' project.pk %}">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                </a>
+            </div>
+        </div>
+        {% empty %}
+            <p>Проєкти не знайдено.</p>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="smart-pagination">
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-arrow">‹</a>
+            {% else %}
+                <span class="page-arrow disabled">‹</span>
+            {% endif %}
+
+            {% if page_obj.number > 4 %}
+                <a href="?page=1" class="page-number">1</a>
+                <span class="page-dots">...</span>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:"-3" and num <= page_obj.number|add:"3" %}
+                    {% if page_obj.number == num %}
+                        <span class="page-number current">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="page-number">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.number < page_obj.paginator.num_pages|add:"-3" %}
+                <span class="page-dots">...</span>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="page-number">{{ page_obj.paginator.num_pages }}</a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-arrow">›</a>
+            {% else %}
+                <span class="page-arrow disabled">›</span>
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+{% endblock %}

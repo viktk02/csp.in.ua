@@ -11,12 +11,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 ADMIN_TWO_FACTOR_NAME = 'BT_VERIFICATION'
 TWO_FACTOR_QR_FACTORY = 'qrcode.image.pil.PilImage'
-CSP_IMG_SRC = ("'self'", "data:", "https:") 
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['csp.in.ua','www.csp.in.ua', 'localhost',
-    '127.0.0.1', ]
+# ALLOWED_HOSTS = ['csp.in.ua','www.csp.in.ua', 'localhost',
+#     '127.0.0.1', ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', ]
 
 INSTALLED_APPS = [
     'admin_two_factor.apps.TwoStepVerificationConfig',
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts',
+    'projects',
     'main',
     'csp',
     'axes',
@@ -64,7 +65,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'main.context_processor.current_year'
-
             ],
         },
     },
@@ -131,6 +131,10 @@ CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_5_UPLOAD_FILE = True
 CKEDITOR_5_UPLOAD_IMAGE = True
 CKEDITOR_5_CUSTOM_CSS = 'css/ckeditor-content.css'
+
+CKEDITOR_5_UPLOAD_PATH = 'uploads/ckeditor/images/'
+
+CKEDITOR_5_FILE_UPLOAD_PATH = 'uploads/ckeditor/files/'
 
 CKEDITOR_5_CONFIGS = {
     'default': {
