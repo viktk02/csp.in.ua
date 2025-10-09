@@ -7,7 +7,7 @@ class ProjectListView(ListView):
     model = Project
     template_name = 'projects/feed.html'
     context_object_name = 'projects'
-    paginate_by = 8
+    paginate_by = 9
 
     def get_queryset(self):
         queryset = Project.objects.all()
@@ -23,7 +23,7 @@ class ProjectListView(ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        request.session['previous_posts_page'] = request.get_full_path()
+        request.session['previous_projects_page'] = request.get_full_path()
         return super().get(request, *args, **kwargs)
 
     def render_to_response(self, context, **response_kwargs):

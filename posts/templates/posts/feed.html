@@ -79,11 +79,11 @@
 
     <div class="news-grid">
         {% for post in posts %}
-            <div class="news-card">
+        <div class="news-card">
             <div class="news-image">
                 <img src="{{ post.image.url }}" alt="{{ post.title }}">
             </div>
-                <h2><a href="{% url 'post-detail' post.pk %}?back={{ request.GET.urlencode }}">{{ post.title }}</a></h2>
+                <h2><a href="{% url 'post-detail' post.pk %}?back={{ request.GET.urlencode }}" class="save-scroll">{{ post.title }}</a></h2>
             <div class="post-content">
                 {{ post.preview_text }}
             </div>
@@ -91,13 +91,13 @@
                 <p><strong>Автор:</strong> {{ post.author }}</p>
                 <p>{{ post.date_posted|date:"d.m.Y" }}</p>
             </div>
-            <a href="{% url 'post-detail' post.pk %}?back={{ request.GET.urlencode }}">Читати далі</a>
+            <a href="{% url 'post-detail' post.pk %}?back={{ request.GET.urlencode }}" class="save-scroll">Читати далі</a>
         </div>
         {% empty %}
             <p>Новин не знайдено.</p>
         {% endfor %}
     </div>
-    <br>
+    
     {% with querystring="" %}
         {% with querystring=querystring|add:"q="|add:search_query|add:"&" %}
             {% with querystring=querystring|add:"date_from="|add:date_from|add:"&" %}
@@ -144,5 +144,6 @@
         {% endwith %}
     {% endwith %}
 
+<script src="{% static 'js/scroll-position.js' %}" nonce="{{ nonce }}"></script>
 
 {% endblock %}

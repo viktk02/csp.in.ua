@@ -4,7 +4,7 @@
 {% block title %}Наші Проєкти | БТ "Центр суспільних програм"{% endblock %}
 
 {% block add_css %}
-    <link rel="stylesheet" href="{% static 'css/feed.css' %}">
+    <link rel="stylesheet" href="{% static 'css/feed-project.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -14,11 +14,11 @@
         </h1>
     </div>
 
-    <div class="news-grid">
+    <div class="project-grid">
         {% for project in projects %}
-        <div class="news-card">
-            <div class="news-image">
-                <a href="{% url 'project-detail' project.pk %}">
+        <div class="project-card">
+            <div class="project-image">
+                <a href="{% url 'project-detail' project.pk %}?back={{ request.GET.urlencode }}" class="save-scroll">
                     <img src="{{ project.image.url }}" alt="{{ project.title }}">
                 </a>
             </div>
@@ -27,7 +27,7 @@
             <p>Проєкти не знайдено.</p>
         {% endfor %}
     </div>
-    <br>
+    
     <div class="smart-pagination">
         {% if is_paginated %}
             {% if page_obj.has_previous %}
@@ -64,5 +64,6 @@
         {% endif %}
     </div>
 
+<script src="{% static 'js/scroll-position.js' %}" nonce="{{ nonce }}"></script>
 
 {% endblock %}

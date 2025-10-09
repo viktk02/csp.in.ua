@@ -9,11 +9,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls'),),
     path('posts/', include('posts.urls')),
+    path('projects/', include('projects.urls')),
 ]
 
 handler404 = 'main.views.custom_404_view'
 
-if not settings.DEBUG:
+if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

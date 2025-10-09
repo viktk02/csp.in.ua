@@ -6,11 +6,14 @@ function initImageZoom() {
     const modalImg = document.getElementById('modalImage');
     const closeBtn = modal.querySelector('.modal-close');
 
+    let lastScrollPosition = null;
     const images = postDetail.querySelectorAll('img');
     images.forEach(img => {
         img.style.cursor = 'zoom-in';
 
         img.addEventListener('click', function() {
+            lastScrollPosition = window.scrollY;
+
             document.body.style.overflow = 'hidden';
             document.documentElement.style.overflow = 'hidden';
 
@@ -35,6 +38,10 @@ function initImageZoom() {
         modal.style.display = 'none';
         document.body.style.overflow = '';
         document.documentElement.style.overflow = '';
+        if (lastScrollPosition !== null) {
+            window.scrollTo(0, lastScrollPosition);
+            lastScrollPosition = null;
+        }
     }
 
     closeBtn.addEventListener('click', closeModal);
