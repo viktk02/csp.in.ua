@@ -1,8 +1,8 @@
 from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from .models import Post
-from .validators import dates_validator
-from utils.secure_utils import generate_nonce, create_csp
+from core.validators import dates_validator
+from core.utils import generate_nonce, create_csp
 
 class PostListView(ListView):
     model = Post
@@ -15,7 +15,7 @@ class PostListView(ListView):
         self.invalid_date_range = False
 
         sort_by = self.request.GET.get('sort', '-date_posted')
-        allowed_fields = ['date_posted', '-date_posted', 'title', '-title', 'author']
+        allowed_fields = ['date_posted', '-date_posted', 'title', '-title']
 
         if sort_by not in allowed_fields:
             sort_by = '-date_posted'
@@ -25,8 +25,7 @@ class PostListView(ListView):
             queryset = queryset.filter(
                 Q(title__icontains=search_query) |
                 Q(content__icontains=search_query) |
-                Q(preview_text__icontains=search_query) |
-                Q(author__icontains=search_query)
+                Q(preview_text__icontains=search_query)
             ).distinct()
 
         date_from = self.request.GET.get('date_from')

@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
     'posts',
     'projects',
     'main',
@@ -64,7 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'main.context_processor.current_year'
+                'core.utils.current_year'
             ],
         },
     },
@@ -128,6 +129,11 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    
+CORE_CKEDITOR_STAFF_ONLY = True
+CORE_CKEDITOR_PER_USER_DIRS = False
+CORE_MAX_UPLOAD_MB = 15
+CORE_ALLOWED_IMAGE_EXTS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff', '.svg']    
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
@@ -135,9 +141,7 @@ CKEDITOR_5_UPLOAD_FILE = True
 CKEDITOR_5_UPLOAD_IMAGE = True
 CKEDITOR_5_CUSTOM_CSS = 'css/ckeditor-content.css'
 
-CKEDITOR_5_UPLOAD_PATH = 'uploads/ckeditor/images/'
-
-CKEDITOR_5_FILE_UPLOAD_PATH = 'uploads/ckeditor/files/'
+CKEDITOR_5_FILE_STORAGE = "core.ckeditor_utils.CustomStorage"
 
 CKEDITOR_5_CONFIGS = {
     'default': {
@@ -148,6 +152,10 @@ CKEDITOR_5_CONFIGS = {
             'imageUpload', 'mediaEmbed', '|',
             'undo', 'redo'
         ],
+        'simpleUpload': {
+            'uploadUrl': '/ckeditor5/upload/',
+            'withCredentials': True,
+        },
         'heading': {
             'options': [
                 {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},

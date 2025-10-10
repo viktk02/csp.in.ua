@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import CarouselImage, PartnerLogo, AboutUs, MainPage
-from utils.secure_utils import generate_nonce, create_csp
+from core.utils import generate_nonce, create_csp
 
 def index(request):
     nonce = generate_nonce()

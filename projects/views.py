@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from .models import Project
-from utils.secure_utils import generate_nonce, create_csp
+from core.utils import generate_nonce, create_csp
 
 class ProjectListView(ListView):
     model = Project

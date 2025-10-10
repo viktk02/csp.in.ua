@@ -1,6 +1,8 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 from django.core.exceptions import ValidationError
+from core.utils import upload_to_factory
+from core.validators import validate_file_size
 
 class SingletonModel(models.Model):
     class Meta:
@@ -18,7 +20,10 @@ class SingletonModel(models.Model):
 
 
 class CarouselImage(models.Model):
-    image = models.ImageField(upload_to='carousel/')
+    image = models.ImageField(
+        upload_to=upload_to_factory('carousel'),
+        validators=[validate_file_size],
+        )
     caption = models.CharField(max_length=255, blank=True)
 
     class Meta:
@@ -30,7 +35,10 @@ class CarouselImage(models.Model):
 
 class PartnerLogo(models.Model):
     ROW_CHOICES = [(1, 'Верхній ряд'), (2, 'Нижній ряд')]
-    image = models.ImageField(upload_to='partners/')
+    image = models.ImageField(
+        upload_to=upload_to_factory('partners'),
+        validators=[validate_file_size],
+        )
     name = models.CharField(max_length=100)
     row = models.PositiveSmallIntegerField(choices=ROW_CHOICES)
 

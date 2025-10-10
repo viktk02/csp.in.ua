@@ -58,7 +58,6 @@
                             <option value="date_posted" {% if current_sort == 'date_posted' %}selected{% endif %}>Найстаріші</option>
                             <option value="title" {% if current_sort == 'title' %}selected{% endif %}>Назва (А–Я)</option>
                             <option value="-title" {% if current_sort == '-title' %}selected{% endif %}>Назва (Я–А)</option>
-                            <option value="author" {% if current_sort == 'author' %}selected{% endif %}>Автор</option>
                         </select>
                     </div>
 
@@ -88,7 +87,6 @@
                 {{ post.preview_text }}
             </div>
             <div class="news-meta">
-                <p><strong>Автор:</strong> {{ post.author }}</p>
                 <p>{{ post.date_posted|date:"d.m.Y" }}</p>
             </div>
             <a href="{% url 'post-detail' post.pk %}?back={{ request.GET.urlencode }}" class="save-scroll">Читати далі</a>

@@ -14,10 +14,10 @@ class PostAdminForm(forms.ModelForm):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     form = PostAdminForm
-    list_display = ('title', 'author', 'date_posted', 'preview_text')
-    list_filter = ('author', 'date_posted')
-    search_fields = ('title', 'author')
+    list_display = ('title', 'date_posted', 'preview_text')
+    list_filter = ('date_posted',)
+    search_fields = ('title',)
     ordering = ('-date_posted',)
     date_hierarchy = 'date_posted'
-    fields = ('title', 'author', 'preview_text', 'content', 'date_posted', 'image')
+    fields = ('title', 'preview_text', 'content', 'date_posted', 'image',)
 
