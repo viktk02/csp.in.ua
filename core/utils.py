@@ -1,4 +1,3 @@
-# core/utils.py
 import base64
 import os
 import uuid
